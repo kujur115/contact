@@ -1,7 +1,7 @@
 import React from "react";
-import "./App.css";
+// import "./App.css";
 import AddContact from "./AddContact";
-import ContactList from "./ContactList";
+import ContactList from "./Contacts";
 
 class App extends React.Component {
   constructor() {
