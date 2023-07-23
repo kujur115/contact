@@ -85,7 +85,7 @@ class App extends React.Component {
           <h1>Contacts</h1>
         </div>
         <hr />
-        <AddContact addContacr={this.handleAdd} />
+        <AddContact addContact={this.handleAdd} />
         <div id="contact-list-container">
           <h2>Contact List</h2>
           <ul>
