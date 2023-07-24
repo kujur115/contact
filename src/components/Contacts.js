@@ -5,8 +5,8 @@ class Contacts extends React.Component {
     super(props);
     this.state = {
       editMode: false,
-      editedName: "",
-      editedPhone: "",
+      editedName: props.user.name,
+      editedPhone: props.user.phone,
     };
   }
   handleEdit = () => {
@@ -25,7 +25,8 @@ class Contacts extends React.Component {
       editedPhone: e.target.value,
     });
   };
-  handleUpdateContact = async () => {
+  handleUpdateContact = async (e) => {
+    e.preventDefault();
     const { editedName, editedPhone } = this.state;
     const { handleUpdate, user } = this.props;
     if (editedName && editedPhone) {
@@ -38,7 +39,7 @@ class Contacts extends React.Component {
   render() {
     const { user, handleDelete } = this.props;
     const { name, phone, id } = user;
-    const { editMode } = this.state;
+    const { editMode, editedName, editedPhone } = this.state;
     return (
       <li>
         <div className="non-edit">
@@ -72,15 +73,20 @@ class Contacts extends React.Component {
                 className="input"
                 placeholder="New Name"
                 onChange={this.handleNameChange}
+                value={editedName}
                 required
               />
               <input
                 className="input"
                 placeholder="New Phone No."
                 onChange={this.handlePhoneChange}
+                value={editedPhone}
                 required
               />
-              <button onClick={this.handleUpdateContact} className="btn">
+              <button
+                onClick={(e) => this.handleUpdateContact(e)}
+                className="btn"
+              >
                 Update
               </button>
             </form>
