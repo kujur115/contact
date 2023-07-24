@@ -1,7 +1,5 @@
 import React from "react";
-
-// const Contacts=()=> {}
-
+import userIcon from "../assets/images/user.png";
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
@@ -12,8 +10,9 @@ class Contacts extends React.Component {
     };
   }
   handleEdit = () => {
+    const { editMode } = this.state;
     this.setState({
-      editMode: true,
+      editMode: editMode ? false : true,
     });
   };
   handleNameChange = (e) => {
@@ -42,56 +41,51 @@ class Contacts extends React.Component {
     const { editMode } = this.state;
     return (
       <li>
-        <p className="name-container">
-          <img src={user} alt="user-icon" />
-          <span className="name">
-            {editMode ? (
-              <input
-                className="input"
-                placeholder="New Name"
-                onChange={this.handleNameChange}
-                required
-              />
-            ) : (
-              name
-            )}
-          </span>
-        </p>
-        <p className="phone-container">
-          {editMode ? (
-            <input
-              className="input"
-              placeholder="New Phone No."
-              onChange={this.handlePhoneChange}
-              required
-            />
-          ) : (
-            phone
-          )}
-        </p>
-        <p className="btns-container">
-          {editMode ? (
-            <img
-              className="list-btn"
-              onClick={this.handleUpdateContact}
-              src="https://cdn-icons-png.flaticon.com/512/1688/1688988.png"
-              alt="submit-edit"
-            />
-          ) : (
+        <div className="non-edit">
+          <div>
+            <p className="name-container">
+              <img className="user-icon" src={userIcon} alt="user-icon" />
+              <span className="name">{name}</span>
+            </p>
+            <p className="phone-container">{phone}</p>
+          </div>
+          <p className="btns-container">
             <img
               className="list-btn"
               onClick={this.handleEdit}
               src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
               alt="edit-btn"
             />
-          )}
-          <img
-            className="list-btn"
-            onClick={() => handleDelete(id)}
-            src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
-            alt="delete-btn"
-          />
-        </p>
+
+            <img
+              className="list-btn"
+              onClick={() => handleDelete(id)}
+              src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
+              alt="delete-btn"
+            />
+          </p>
+        </div>
+        {editMode && (
+          <div className="edit-mode">
+            <form>
+              <input
+                className="input"
+                placeholder="New Name"
+                onChange={this.handleNameChange}
+                required
+              />
+              <input
+                className="input"
+                placeholder="New Phone No."
+                onChange={this.handlePhoneChange}
+                required
+              />
+              <button onClick={this.handleUpdateContact} className="btn">
+                Update
+              </button>
+            </form>
+          </div>
+        )}
       </li>
     );
   }

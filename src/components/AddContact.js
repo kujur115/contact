@@ -6,6 +6,7 @@ class AddContact extends Component {
     this.state = {
       name: "",
       phone: "",
+      creating: false,
     };
   }
 
@@ -23,6 +24,9 @@ class AddContact extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.setState({
+      creating: true,
+    });
     const { name, phone } = this.state;
     const { addContact } = this.props;
     if (name && phone) {
@@ -30,12 +34,13 @@ class AddContact extends Component {
       this.setState({
         name: "",
         phone: "",
+        creating: false,
       });
     }
   };
 
   render() {
-    const { name, phone } = this.state;
+    const { name, phone, creating } = this.state;
     return (
       <div id="add-contacts-container">
         <h2>Add Contact</h2>
@@ -55,8 +60,12 @@ class AddContact extends Component {
               required
               onChange={(e) => this.handleChange("phone", e)}
             />
-            <button id="btn" onClick={this.handleSubmit}>
-              Add Contact
+            <button
+              className="btn"
+              onClick={this.handleSubmit}
+              disabled={creating}
+            >
+              {creating ? "Creating Contact" : "Add Contact"}
             </button>
           </div>
         </form>

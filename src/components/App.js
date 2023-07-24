@@ -1,7 +1,7 @@
 import React from "react";
-// import "./App.css";
 import AddContact from "./AddContact";
 import ContactList from "./Contacts";
+const url = "https://jsonplaceholder.typicode.com/users/";
 
 class App extends React.Component {
   constructor() {
@@ -12,7 +12,6 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const url = "https://jsonplaceholder.typicode.com/users";
     const response = await fetch(url);
     const data = await response.json();
 
@@ -23,8 +22,8 @@ class App extends React.Component {
 
   handleDelete = async (id) => {
     let { users } = this.state;
-    const url = `https://jsonplaceholder.typicode.com/users/${id}`;
-    await fetch(url, {
+    const urll = url + id;
+    await fetch(urll, {
       method: "DELETE",
     });
     let updatedUser = users.filter((user) => user.id !== id);
@@ -35,8 +34,8 @@ class App extends React.Component {
 
   handleUpdate = async (name, phone, id) => {
     let { users } = this.state;
-    const url = `https://jsonplaceholder.typicode.com/users/${id}`;
-    await fetch(url, {
+    const urll = url + id;
+    await fetch(urll, {
       method: "PUT",
       body: JSON.stringify({ id, name, phone }),
       headers: {
@@ -61,7 +60,6 @@ class App extends React.Component {
   handleAdd = async (name, phone) => {
     let id = Date.now();
     const { users } = this.state;
-    const url = "https://jsonplaceholder.typicode.com/users";
     await fetch(url, {
       method: "POST",
       body: JSON.stringify({ name, phone }),
@@ -84,24 +82,26 @@ class App extends React.Component {
         <div className="header">
           <h1>Contacts</h1>
         </div>
-        <hr />
-        <AddContact addContact={this.handleAdd} />
-        <div id="contact-list-container">
-          <h2>Contact List</h2>
-          <ul>
-            {users.length === 0 ? (
-              <h1>Loading...</h1>
-            ) : (
-              users.map((user) => (
-                <ContactList
-                  user={user}
-                  key={user.id}
-                  handleDelete={this.handleDelete}
-                  handleUpdate={this.handleUpdate}
-                />
-              ))
-            )}
-          </ul>
+        {/* <hr /> */}
+        <div className="body">
+          <AddContact addContact={this.handleAdd} />
+          <div id="contact-list-container">
+            <h2>Contact List</h2>
+            <ul>
+              {users.length === 0 ? (
+                <h1>Loading...</h1>
+              ) : (
+                users.map((user) => (
+                  <ContactList
+                    user={user}
+                    key={user.id}
+                    handleDelete={this.handleDelete}
+                    handleUpdate={this.handleUpdate}
+                  />
+                ))
+              )}
+            </ul>
+          </div>
         </div>
       </>
     );
